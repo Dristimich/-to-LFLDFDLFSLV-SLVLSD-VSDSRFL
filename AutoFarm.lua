@@ -1,4 +1,4 @@
-[06.05.2026 16:00] 𝐃𝐫𝐢𝐬𝐭𝐢𝐦𝐢𝐜𝐡: getgenv().AutoFarm = getgenv().AutoFarm or {}
+getgenv().AutoFarm = getgenv().AutoFarm or {}
 getgenv().AutoFarm.Enabled = true
 getgenv().AutoFarm.ClickPosition = getgenv().AutoFarm.ClickPosition or nil
 
