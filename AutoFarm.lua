@@ -113,7 +113,7 @@ end
 -- ==================== ЗАПУСК ====================
 local function tryStartGame()
     updateStatus("Телепортируемся...")
-[06.05.2026 16:00] 𝐃𝐫𝐢𝐬𝐭𝐢𝐦𝐢𝐜𝐡: local lifts = Workspace:FindFirstChild("Lifts")
+    local lifts = Workspace:FindFirstChild("Lifts")
     if lifts then
         local toiletHQ = lifts:FindFirstChild("ToiletHQ")
         if toiletHQ then
