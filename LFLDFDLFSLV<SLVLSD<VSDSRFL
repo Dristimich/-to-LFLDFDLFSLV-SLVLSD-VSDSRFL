@@ -134,134 +134,100 @@ themeBtn.TextSize = 13
 themeBtn.Font = Enum.Font.SourceSansBold
 themeBtn.Parent = frame
 
--- ==================== THEME SELECTOR GUI ====================
+-- ==================== THEME MENU ====================
 local function OpenThemeMenu()
     local themeGui = Instance.new("ScreenGui")
-    themeGui.Name = "ThemeMenu"
+    themeGui.Name = "ThemeSelector"
     themeGui.ResetOnSpawn = false
     themeGui.Parent = player:WaitForChild("PlayerGui")
 
     local themeFrame = Instance.new("Frame")
-    themeFrame.Size = UDim2.new(0, 280, 0, 320)
-    themeFrame.Position = UDim2.new(0.5, -140, 0.3, 0)
+    themeFrame.Size = UDim2.new(0, 300, 0, 380)
+    themeFrame.Position = UDim2.new(0.5, -150, 0.25, 0)
     themeFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     themeFrame.Active = true
     themeFrame.Draggable = true
     themeFrame.Parent = themeGui
 
     local title = Instance.new("TextLabel")
-    title.Size = UDim2.new(1, 0, 0, 30)
+    title.Size = UDim2.new(1, 0, 0, 32)
     title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    title.Text = "Выбери тему"
+    title.Text = "Выберите тему"
     title.TextColor3 = Color3.fromRGB(255, 255, 255)
     title.TextSize = 16
     title.Font = Enum.Font.SourceSansBold
     title.Parent = themeFrame
 
-    local closeBtn = Instance.new("TextButton")
-    closeBtn.Size = UDim2.new(0, 30, 0, 30)
-    closeBtn.Position = UDim2.new(1, -30, 0, 0)
-    closeBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
-    closeBtn.Text = "X"
-    closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    closeBtn.TextSize = 14
-    closeBtn.Font = Enum.Font.SourceSansBold
-    closeBtn.Parent = themeFrame
+    local close = Instance.new("TextButton")
+    close.Size = UDim2.new(0, 32, 0, 32)
+    close.Position = UDim2.new(1, -32, 0, 0)
+    close.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+    close.Text = "X"
+    close.TextColor3 = Color3.fromRGB(255, 255, 255)
+    close.TextSize = 14
+    close.Font = Enum.Font.SourceSansBold
+    close.Parent = themeFrame
 
-    closeBtn.MouseButton1Click:Connect(function()
+    close.MouseButton1Click:Connect(function()
         themeGui:Destroy()
     end)
 
-    local yPos = 40
-    for themeName, colors in pairs(Themes) do
+    local y = 45
+    for name, colors in pairs(Themes) do
         local btn = Instance.new("TextButton")
-        btn.Size = UDim2.new(1, -20, 0, 28)
-        btn.Position = UDim2.new(0, 10, 0, yPos)
+        btn.Size = UDim2.new(1, -20, 0, 36)
+        btn.Position = UDim2.new(0, 10, 0, y)
         btn.BackgroundColor3 = colors.Button
-        btn.Text = themeName
+        btn.Text = name
         btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-        btn.TextSize = 14
+        btn.TextSize = 15
         btn.Font = Enum.Font.SourceSansBold
         btn.Parent = themeFrame
 
         btn.MouseButton1Click:Connect(function()
-            ApplyTheme(themeName)
+            ApplyTheme(name)
             savePositions()
             themeGui:Destroy()
         end)
 
-        yPos = yPos + 32
+        y = y + 42
     end
-
-    -- Custom Theme Section
-    local customLabel = Instance.new("TextLabel")
-    customLabel.Size = UDim2.new(1, -20, 0, 24)
-    customLabel.Position = UDim2.new(0, 10, 0, yPos)
-    customLabel.BackgroundTransparency = 1
-    customLabel.Text = "Кастомная тема (R,G,B)"
-    customLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-    customLabel.TextSize = 13
-    customLabel.Font = Enum.Font.SourceSans
-    customLabel.Parent = themeFrame
-
-    local rBox = Instance.new("TextBox")
-    rBox.Size = UDim2.new(0.3, -5, 0, 26)
-    rBox.Position = UDim2.new(0, 10, 0, yPos + 28)
-    rBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    rBox.Text = "30"
-    rBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    rBox.TextSize = 14
-    rBox.Font = Enum.Font.SourceSansBold
-    rBox.Parent = themeFrame
-
-    local gBox = Instance.new("TextBox")
-    gBox.Size = UDim2.new(0.3, -5, 0, 26)
-    gBox.Position = UDim2.new(0.35, 0, 0, yPos + 28)
-    gBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    gBox.Text = "30"
-    gBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    gBox.TextSize = 14
-    gBox.Font = Enum.Font.SourceSansBold
-    gBox.Parent = themeFrame
-
-    local bBox = Instance.new("TextBox")
-    bBox.Size = UDim2.new(0.3, -5, 0, 26)
-    bBox.Position = UDim2.new(0.7, 0, 0, yPos + 28)
-    bBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    bBox.Text = "30"
-    bBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    bBox.TextSize = 14
-    bBox.Font = Enum.Font.SourceSansBold
-    bBox.Parent = themeFrame
-
-    local applyCustom = Instance.new("TextButton")
-    applyCustom.Size = UDim2.new(1, -20, 0, 28)
-    applyCustom.Position = UDim2.new(0, 10, 0, yPos + 60)
-    applyCustom.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
-    applyCustom.Text = "Применить кастом"
-    applyCustom.TextColor3 = Color3.fromRGB(255, 255, 255)
-    applyCustom.TextSize = 14
-    applyCustom.Font = Enum.Font.SourceSansBold
-    applyCustom.Parent = themeFrame
-
-    applyCustom.MouseButton1Click:Connect(function()
-        local r = tonumber(rBox.Text) or 30
-        local g = tonumber(gBox.Text) or 30
-        local b = tonumber(bBox.Text) or 30
-        
-        Themes["Custom"] = {
-            Main = Color3.fromRGB(r, g, b),
-            Top = Color3.fromRGB(math.max(r-10,0), math.max(g-10,0), math.max(b-10,0)),
-            Button = Color3.fromRGB(math.min(r+20,255), math.min(g+20,255), math.min(b+20,255))
-        }
-        
-        ApplyTheme("Custom")
-        savePositions()
-        themeGui:Destroy()
-    end)
 end
 
 themeBtn.MouseButton1Click:Connect(OpenThemeMenu)
+
+-- ==================== BUTTON FUNCTIONS ====================
+startBtn.MouseButton1Click:Connect(function()
+    statusLabel.Text = "Кликни на кнопку Start..."
+    local conn
+    conn = UserInputService.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            getgenv().AutoFarm.StartPos = {X = input.Position.X, Y = input.Position.Y}
+            savePositions()
+            statusLabel.Text = "Start координаты сохранены!"
+            conn:Disconnect()
+        end
+    end)
+end)
+
+skipBtn.MouseButton1Click:Connect(function()
+    statusLabel.Text = "Кликни на кнопку Skip..."
+    local conn
+    conn = UserInputService.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            getgenv().AutoFarm.SkipPos = {X = input.Position.X, Y = input.Position.Y}
+            savePositions()
+            statusLabel.Text = "Skip координаты сохранены!"
+            conn:Disconnect()
+        end
+    end)
+end)
+
+toggle.MouseButton1Click:Connect(function()
+    getgenv().AutoFarm.Enabled = not getgenv().AutoFarm.Enabled
+    toggle.Text = getgenv().AutoFarm.Enabled and "ВКЛЮЧЕНО" or "ВЫКЛЮЧЕНО"
+    toggle.BackgroundColor3 = getgenv().AutoFarm.Enabled and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(170, 0, 0)
+end)
 
 -- ==================== MAIN LOOP ====================
 task.spawn(function()
