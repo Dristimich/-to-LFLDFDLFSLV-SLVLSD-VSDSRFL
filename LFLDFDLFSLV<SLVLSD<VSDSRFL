@@ -35,7 +35,17 @@ local function ApplyTheme(theme)
     end
 end
 
--- ==================== SAVE/LOAD ====================
+local function savePositions()
+    local data = {
+        StartPos = getgenv().AutoFarm.StartPos,
+        SkipPos = getgenv().AutoFarm.SkipPos,
+        Theme = getgenv().AutoFarm.Theme
+    }
+    if writefile then
+        writefile(fileName, game:GetService("HttpService"):JSONEncode(data))
+    end
+end
+
 local function loadPositions()
     if isfile and readfile and isfile(fileName) then
         local success, data = pcall(function()
@@ -46,17 +56,6 @@ local function loadPositions()
             getgenv().AutoFarm.SkipPos = data.SkipPos
             getgenv().AutoFarm.Theme = data.Theme or "Dark"
         end
-    end
-end
-
-local function savePositions()
-    local data = {
-        StartPos = getgenv().AutoFarm.StartPos,
-        SkipPos = getgenv().AutoFarm.SkipPos,
-        Theme = getgenv().AutoFarm.Theme
-    }
-    if writefile then
-        writefile(fileName, game:GetService("HttpService"):JSONEncode(data))
     end
 end
 
@@ -207,7 +206,7 @@ end
 
 themeBtn.MouseButton1Click:Connect(OpenThemeMenu)
 
--- ==================== ORIGINAL FUNCTIONS ====================
+-- ==================== ORIGINAL CODE ====================
 local function calibrate(name)
     statusLabel.Text = "Кликни на кнопку " .. name .. "..."
     local connection
@@ -256,7 +255,7 @@ local function click(pos)
     end
 end
 
--- ==================== MAIN LOOP ====================
+-- ==================== ГЛАВНЫЙ ЦИКЛ С АНТИ-ЗАВИСАНИЕМ ====================
 task.spawn(function()
     ApplyTheme(getgenv().AutoFarm.Theme)
     
@@ -264,6 +263,7 @@ task.spawn(function()
         if getgenv().AutoFarm.Enabled then
             if isInLobby() then
                 updateStatus("Лобби - телепорт + Start")
+                
                 local lifts = Workspace:FindFirstChild("Lifts")
                 if lifts then
                     local allHQ = {}
@@ -275,22 +275,31 @@ task.spawn(function()
                     
                     if #allHQ > 0 then
                         local index = 1
+                        
+                        -- Телепорт в первый ToiletHQ
                         player.Character.HumanoidRootPart.CFrame = allHQ[index]:GetPivot() + Vector3.new(0, 9, 0)
                         task.wait(3)
                         click(getgenv().AutoFarm.StartPos)
+                        
                         local startTime = tick()
+                        
+                        -- Ждём 60 секунд
                         while isInLobby() and (tick() - startTime) < 60 do
                             task.wait(1)
                         end
+                        
+                        -- Если за 60 секунд не ушли — переключаемся на следующий ToiletHQ
                         if isInLobby() and #allHQ > 1 then
                             index = index % #allHQ + 1
                             updateStatus("Пробуем другой ToiletHQ...")
+                            
                             player.Character.HumanoidRootPart.CFrame = allHQ[index]:GetPivot() + Vector3.new(0, 9, 0)
                             task.wait(3)
                             click(getgenv().AutoFarm.StartPos)
                         end
                     end
                 end
+                
                 task.wait(8)
             else
                 updateStatus("В катке - жмём Skip")
