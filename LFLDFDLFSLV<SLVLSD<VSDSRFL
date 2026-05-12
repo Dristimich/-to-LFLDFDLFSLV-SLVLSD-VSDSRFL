@@ -1,1 +1,207 @@
-local _={} _[1]=game.GetService _[2]=_[1](game,"Players") _[3]=_[1](game,"Workspace") _[4]=_[1](game,"VirtualInputManager") _[5]=_[1](game,"UserInputService") _[6]=_[2].LocalPlayer _[7]="AutoFarm_Positions.txt" _[8]={Enabled=true,StartPos=nil,SkipPos=nil} local _9={} _9[1]=function(x)return _[1](game,"HttpService"):JSONDecode(x)end _9[2]=function(x)return _[1](game,"HttpService"):JSONEncode(x)end _9[3]=function()if isfile and readfile and isfile(_[7])then local a,b=pcall(function()return _9[1](readfile(_[7]))end)if a and b then _[8].StartPos=b.StartPos _[8].SkipPos=b.SkipPos end end end _9[4]=function()local a={StartPos=_[8].StartPos,SkipPos=_[8].SkipPos}if writefile then writefile(_[7],_9[2](a))end end _9[3]()local c=Instance.new("ScreenGui")c.Name="AutoFarmGUI"c.ResetOnSpawn=false c.Parent=_[6]:WaitForChild("PlayerGui")local d=Instance.new("Frame")d.Size=UDim2.new(0,260,0,175)d.Position=UDim2.new(0.5,-130,0.08,0)d.BackgroundColor3=Color3.fromRGB(30,30,30)d.Active=true d.Draggable=true d.Parent=c local e=Instance.new("TextLabel")e.Size=UDim2.new(1,0,0,28)e.BackgroundColor3=Color3.fromRGB(20,20,20)e.Text="AutoFarm | Nightmare"e.TextColor3=Color3.fromRGB(255,255,255)e.TextSize=15 e.Font=Enum.Font.SourceSansBold e.Parent=d local f=Instance.new("TextLabel")f.Size=UDim2.new(1,0,0,18)f.Position=UDim2.new(0,0,1,-18)f.BackgroundTransparency=1 f.Text="by: Dristimich"f.TextColor3=Color3.fromRGB(180,180,180)f.TextSize=12 f.Font=Enum.Font.SourceSans f.Parent=d local g=Instance.new("TextLabel")g.Size=UDim2.new(1,-20,0,22)g.Position=UDim2.new(0,10,0,35)g.BackgroundTransparency=1 g.Text="Статус: Ожидание..."g.TextColor3=Color3.fromRGB(200,200,200)g.TextSize=13 g.Font=Enum.Font.SourceSans g.Parent=d local h=Instance.new("TextButton")h.Size=UDim2.new(1,-20,0,24)h.Position=UDim2.new(0,10,0,60)h.BackgroundColor3=Color3.fromRGB(0,170,0)h.Text="ВКЛЮЧЕНО"h.TextColor3=Color3.fromRGB(255,255,255)h.TextSize=14 h.Font=Enum.Font.SourceSansBold h.Parent=d local i=Instance.new("TextButton")i.Size=UDim2.new(1,-20,0,24)i.Position=UDim2.new(0,10,0,88)i.BackgroundColor3=Color3.fromRGB(60,60,60)i.Text="Задать координаты Start"i.TextColor3=Color3.fromRGB(255,255,255)i.TextSize=13 i.Font=Enum.Font.SourceSansBold i.Parent=d local j=Instance.new("TextButton")j.Size=UDim2.new(1,-20,0,24)j.Position=UDim2.new(0,10,0,116)j.BackgroundColor3=Color3.fromRGB(60,60,60)j.Text="Задать координаты Skip"j.TextColor3=Color3.fromRGB(255,255,255)j.TextSize=13 j.Font=Enum.Font.SourceSansBold j.Parent=d local function k(l)g.Text="Кликни на кнопку "..l.."..."local m m=_[5].InputBegan:Connect(function(n)if n.UserInputType==Enum.UserInputType.MouseButton1 or n.UserInputType==Enum.UserInputType.Touch then if l=="Start"then _[8].StartPos={X=n.Position.X,Y=n.Position.Y}else _[8].SkipPos={X=n.Position.X,Y=n.Position.Y}end _9[4]()g.Text=l.." координаты сохранены!"m:Disconnect()end end)end i.MouseButton1Click:Connect(function()k("Start")end)j.MouseButton1Click:Connect(function()k("Skip")end)h.MouseButton1Click:Connect(function()_[8].Enabled=not _[8].Enabled h.Text=_[8].Enabled and"ВКЛЮЧЕНО"or"ВЫКЛЮЧЕНО"h.BackgroundColor3=_[8].Enabled and Color3.fromRGB(0,170,0)or Color3.fromRGB(170,0,0)end)local function o(p)g.Text="Статус: "..p end local function q()local r=_[3]:FindFirstChild("Lifts")return r and r:FindFirstChild("ToiletHQ")~=nil end local function s(t)if not t then return end _[4]:SendMouseButtonEvent(t.X,t.Y,0,true,game,1)task.wait(0.03)_[4]:SendMouseButtonEvent(t.X,t.Y,0,false,game,1)end task.spawn(function()local u=0 while true do if _[8].Enabled then if q()then o("Лобби - телепорт + Start")local v=_[3]:FindFirstChild("Lifts")if v then local w={}for _,x in ipairs(v:GetChildren())do if x.Name=="ToiletHQ"then table.insert(w,x)end end if#w>0 then local y=1 _[6].Character.HumanoidRootPart.CFrame=w[y]:GetPivot()+Vector3.new(0,9,0)task.wait(3)s(_[8].StartPos)local z=tick()while q()and(tick()-z)<60 do task.wait(1)end if q()and#w>1 then y=y%#w+1 o("Пробуем другой ToiletHQ...")_[6].Character.HumanoidRootPart.CFrame=w[y]:GetPivot()+Vector3.new(0,9,0)task.wait(3)s(_[8].StartPos)end end end task.wait(8)else o("В катке - жмём Skip")s(_[8].SkipPos)task.wait(1)end else o("Выключено")task.wait(3)end end end)print("[AutoFarm] Скрипт запущен (by: Dristimich)")
+local _ = {}
+_[1] = game:GetService("Players")
+_[2] = game:GetService("Workspace")
+_[3] = game:GetService("VirtualInputManager")
+_[4] = game:GetService("UserInputService")
+_[5] = _[1].LocalPlayer
+_[6] = "AutoFarm_Positions.txt"
+_[7] = {Enabled = true, StartPos = nil, SkipPos = nil, Theme = "Dark"}
+
+local _8 = {}
+_8[1] = function(x) return game:GetService("HttpService"):JSONDecode(x) end
+_8[2] = function(x) return game:GetService("HttpService"):JSONEncode(x) end
+_8[3] = function() if isfile and readfile and isfile(_[6]) then local a,b = pcall(function() return _8[1](readfile(_[6])) end) if a and b then _[7].StartPos = b.StartPos _[7].SkipPos = b.SkipPos _[7].Theme = b.Theme or "Dark" end end end
+_8[4] = function() local a = {StartPos = _[7].StartPos, SkipPos = _[7].SkipPos, Theme = _[7].Theme} if writefile then writefile(_[6], _8[2](a)) end end
+
+_8[3]()
+
+-- ==================== THEMES ====================
+local Themes = {
+    Dark = {Main = Color3.fromRGB(25,25,25), Top = Color3.fromRGB(20,20,20), Button = Color3.fromRGB(45,45,45)},
+    Midnight = {Main = Color3.fromRGB(15,20,35), Top = Color3.fromRGB(10,15,30), Button = Color3.fromRGB(30,40,70)},
+    Blood = {Main = Color3.fromRGB(35,10,10), Top = Color3.fromRGB(25,5,5), Button = Color3.fromRGB(70,20,20)}
+}
+
+local function ApplyTheme(theme)
+    if not Themes[theme] then theme = "Dark" end
+    _[7].Theme = theme
+    frame.BackgroundColor3 = Themes[theme].Main
+    titleBar.BackgroundColor3 = Themes[theme].Top
+    startBtn.BackgroundColor3 = Themes[theme].Button
+    skipBtn.BackgroundColor3 = Themes[theme].Button
+    themeBtn.BackgroundColor3 = Themes[theme].Button
+end
+
+-- ==================== GUI ====================
+local gui = Instance.new("ScreenGui")
+gui.Name = "AutoFarmGUI"
+gui.ResetOnSpawn = false
+gui.Parent = _[5]:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0,280,0,200)
+frame.Position = UDim2.new(0.5,-140,0.08,0)
+frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+local titleBar = Instance.new("TextLabel")
+titleBar.Size = UDim2.new(1,0,0,32)
+titleBar.BackgroundColor3 = Color3.fromRGB(20,20,20)
+titleBar.Text = "AutoFarm | Nightmare"
+titleBar.TextColor3 = Color3.fromRGB(255,255,255)
+titleBar.TextSize = 16
+titleBar.Font = Enum.Font.SourceSansBold
+titleBar.Parent = frame
+
+local credit = Instance.new("TextLabel")
+credit.Size = UDim2.new(1,0,0,18)
+credit.Position = UDim2.new(0,0,1,-18)
+credit.BackgroundTransparency = 1
+credit.Text = "by: Dristimich"
+credit.TextColor3 = Color3.fromRGB(150,150,150)
+credit.TextSize = 12
+credit.Font = Enum.Font.SourceSans
+credit.Parent = frame
+
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(1,-20,0,24)
+statusLabel.Position = UDim2.new(0,10,0,38)
+statusLabel.BackgroundTransparency = 1
+statusLabel.Text = "Статус: Ожидание..."
+statusLabel.TextColor3 = Color3.fromRGB(200,200,200)
+statusLabel.TextSize = 14
+statusLabel.Font = Enum.Font.SourceSans
+statusLabel.Parent = frame
+
+local toggle = Instance.new("TextButton")
+toggle.Size = UDim2.new(1,-20,0,28)
+toggle.Position = UDim2.new(0,10,0,68)
+toggle.BackgroundColor3 = Color3.fromRGB(0,170,0)
+toggle.Text = "ВКЛЮЧЕНО"
+toggle.TextColor3 = Color3.fromRGB(255,255,255)
+toggle.TextSize = 15
+toggle.Font = Enum.Font.SourceSansBold
+toggle.Parent = frame
+
+local startBtn = Instance.new("TextButton")
+startBtn.Size = UDim2.new(1,-20,0,26)
+startBtn.Position = UDim2.new(0,10,0,102)
+startBtn.BackgroundColor3 = Color3.fromRGB(45,45,45)
+startBtn.Text = "Задать координаты Start"
+startBtn.TextColor3 = Color3.fromRGB(255,255,255)
+startBtn.TextSize = 14
+startBtn.Font = Enum.Font.SourceSansBold
+startBtn.Parent = frame
+
+local skipBtn = Instance.new("TextButton")
+skipBtn.Size = UDim2.new(1,-20,0,26)
+skipBtn.Position = UDim2.new(0,10,0,134)
+skipBtn.BackgroundColor3 = Color3.fromRGB(45,45,45)
+skipBtn.Text = "Задать координаты Skip"
+skipBtn.TextColor3 = Color3.fromRGB(255,255,255)
+skipBtn.TextSize = 14
+skipBtn.Font = Enum.Font.SourceSansBold
+skipBtn.Parent = frame
+
+local themeBtn = Instance.new("TextButton")
+themeBtn.Size = UDim2.new(1,-20,0,26)
+themeBtn.Position = UDim2.new(0,10,0,166)
+themeBtn.BackgroundColor3 = Color3.fromRGB(45,45,45)
+themeBtn.Text = "Сменить тему"
+themeBtn.TextColor3 = Color3.fromRGB(255,255,255)
+themeBtn.TextSize = 14
+themeBtn.Font = Enum.Font.SourceSansBold
+themeBtn.Parent = frame
+
+-- ==================== FUNCTIONS ====================
+local function calibrate(name)
+    statusLabel.Text = "Кликни на кнопку "..name.."..."
+    local connection
+    connection = _[4].InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            if name == "Start" then _[7].StartPos = {X = input.Position.X, Y = input.Position.Y} else _[7].SkipPos = {X = input.Position.X, Y = input.Position.Y} end
+            _8[4]()
+            statusLabel.Text = name.." координаты сохранены!"
+            connection:Disconnect()
+        end
+    end)
+end
+
+startBtn.MouseButton1Click:Connect(function() calibrate("Start") end)
+skipBtn.MouseButton1Click:Connect(function() calibrate("Skip") end)
+
+toggle.MouseButton1Click:Connect(function()
+    _[7].Enabled = not _[7].Enabled
+    toggle.Text = _[7].Enabled and "ВКЛЮЧЕНО" or "ВЫКЛЮЧЕНО"
+    toggle.BackgroundColor3 = _[7].Enabled and Color3.fromRGB(0,170,0) or Color3.fromRGB(170,0,0)
+end)
+
+themeBtn.MouseButton1Click:Connect(function()
+    local themes = {"Dark","Midnight","Blood"}
+    local current = table.find(themes, _[7].Theme) or 1
+    local nextTheme = themes[current % #themes + 1]
+    ApplyTheme(nextTheme)
+    _8[4]()
+end)
+
+local function updateStatus(text)
+    statusLabel.Text = "Статус: "..text
+end
+
+local function isInLobby()
+    local lifts = _[2]:FindFirstChild("Lifts")
+    return lifts and lifts:FindFirstChild("ToiletHQ") ~= nil
+end
+
+local function click(pos)
+    if not pos then return end
+    _[3]:SendMouseButtonEvent(pos.X, pos.Y, 0, true, game, 1)
+    task.wait(0.03)
+    _[3]:SendMouseButtonEvent(pos.X, pos.Y, 0, false, game, 1)
+end
+
+-- ==================== MAIN LOOP ====================
+task.spawn(function()
+    ApplyTheme(_[7].Theme or "Dark")
+    while true do
+        if _[7].Enabled then
+            if isInLobby() then
+                updateStatus("Лобби - телепорт + Start")
+                local lifts = _[2]:FindFirstChild("Lifts")
+                if lifts then
+                    local allHQ = {}
+                    for _, obj in ipairs(lifts:GetChildren()) do
+                        if obj.Name == "ToiletHQ" then table.insert(allHQ, obj) end
+                    end
+                    if #allHQ > 0 then
+                        local index = 1
+                        _[5].Character.HumanoidRootPart.CFrame = allHQ[index]:GetPivot() + Vector3.new(0,9,0)
+                        task.wait(3)
+                        click(_[7].StartPos)
+                        local startTime = tick()
+                        while isInLobby() and (tick() - startTime) < 60 do task.wait(1) end
+                        if isInLobby() and #allHQ > 1 then
+                            index = index % #allHQ + 1
+                            updateStatus("Пробуем другой ToiletHQ...")
+                            _[5].Character.HumanoidRootPart.CFrame = allHQ[index]:GetPivot() + Vector3.new(0,9,0)
+                            task.wait(3)
+                            click(_[7].StartPos)
+                        end
+                    end
+                end
+                task.wait(8)
+            else
+                updateStatus("В катке - жмём Skip")
+                click(_[7].SkipPos)
+                task.wait(1)
+            end
+        else
+            updateStatus("Выключено")
+            task.wait(3)
+        end
+    end
+end)
+
+print("[AutoFarm] Скрипт запущен (by: Dristimich)")
