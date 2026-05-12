@@ -22,19 +22,6 @@ local Themes = {
     Neon = {Main = Color3.fromRGB(10,10,10), Top = Color3.fromRGB(15,15,15), Button = Color3.fromRGB(0,200,150)}
 }
 
-local function ApplyTheme(theme)
-    if not Themes[theme] then theme = "Dark" end
-    getgenv().AutoFarm.Theme = theme
-    
-    if frame then
-        frame.BackgroundColor3 = Themes[theme].Main
-        titleBar.BackgroundColor3 = Themes[theme].Top
-        startBtn.BackgroundColor3 = Themes[theme].Button
-        skipBtn.BackgroundColor3 = Themes[theme].Button
-        themeBtn.BackgroundColor3 = Themes[theme].Button
-    end
-end
-
 -- ==================== SAVE/LOAD ====================
 local function loadPositions()
     if isfile and readfile and isfile(fileName) then
@@ -69,7 +56,7 @@ gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 260, 0, 195)
+frame.Size = UDim2.new(0, 260, 0, 195)  -- увеличил высоту, чтобы влез текст
 frame.Position = UDim2.new(0.5, -130, 0.08, 0)
 frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 frame.Active = true
@@ -325,4 +312,4 @@ task.spawn(function()
     end
 end)
 
-print("[AutoFarm] Скрипт запущен (by: Dristimich)")
+print("[AutoFarm] Скрипт запущен (by: Dristimich)") 
