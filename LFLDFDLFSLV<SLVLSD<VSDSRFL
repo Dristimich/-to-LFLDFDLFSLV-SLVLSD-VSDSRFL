@@ -1,1 +1,328 @@
-local _={} _[1]=game.GetService _[2]=_[1](game,"Players") _[3]=_[1](game,"Workspace") _[4]=_[1](game,"VirtualInputManager") _[5]=_[1](game,"UserInputService") _[6]=_[2].LocalPlayer _[7]="AutoFarm_Positions.txt" _[8]={Enabled=true,StartPos=nil,SkipPos=nil,Theme="Dark"} local _9={} _9[1]=function(x)return _[1](game,"HttpService"):JSONDecode(x)end _9[2]=function(x)return _[1](game,"HttpService"):JSONEncode(x)end _9[3]=function()if isfile and readfile and isfile(_[7])then local a,b=pcall(function()return _9[1](readfile(_[7]))end)if a and b then _[8].StartPos=b.StartPos _[8].SkipPos=b.SkipPos _[8].Theme=b.Theme or"Dark"end end end _9[4]=function()local a={StartPos=_[8].StartPos,SkipPos=_[8].SkipPos,Theme=_[8].Theme}if writefile then writefile(_[7],_9[2](a))end end _9[3]()local c=Instance.new("ScreenGui")c.Name="AutoFarmGUI"c.ResetOnSpawn=false c.Parent=_[6]:WaitForChild("PlayerGui")local d=Instance.new("Frame")d.Size=UDim2.new(0,260,0,195)d.Position=UDim2.new(0.5,-130,0.08,0)d.BackgroundColor3=Color3.fromRGB(30,30,30)d.Active=true d.Draggable=true d.Parent=c local e=Instance.new("TextLabel")e.Size=UDim2.new(1,0,0,28)e.BackgroundColor3=Color3.fromRGB(20,20,20)e.Text="AutoFarm | Nightmare"e.TextColor3=Color3.fromRGB(255,255,255)e.TextSize=15 e.Font=Enum.Font.SourceSansBold e.Parent=d local f=Instance.new("TextLabel")f.Size=UDim2.new(1,0,0,18)f.Position=UDim2.new(0,0,1,-18)f.BackgroundTransparency=1 f.Text="by: Dristimich"f.TextColor3=Color3.fromRGB(180,180,180)f.TextSize=12 f.Font=Enum.Font.SourceSans f.Parent=d local g=Instance.new("TextLabel")g.Size=UDim2.new(1,-20,0,22)g.Position=UDim2.new(0,10,0,35)g.BackgroundTransparency=1 g.Text="Статус: Ожидание..."g.TextColor3=Color3.fromRGB(200,200,200)g.TextSize=13 g.Font=Enum.Font.SourceSans g.Parent=d local h=Instance.new("TextButton")h.Size=UDim2.new(1,-20,0,24)h.Position=UDim2.new(0,10,0,60)h.BackgroundColor3=Color3.fromRGB(0,170,0)h.Text="ВКЛЮЧЕНО"h.TextColor3=Color3.fromRGB(255,255,255)h.TextSize=14 h.Font=Enum.Font.SourceSansBold h.Parent=d local i=Instance.new("TextButton")i.Size=UDim2.new(1,-20,0,24)i.Position=UDim2.new(0,10,0,88)i.BackgroundColor3=Color3.fromRGB(60,60,60)i.Text="Задать координаты Start"i.TextColor3=Color3.fromRGB(255,255,255)i.TextSize=13 i.Font=Enum.Font.SourceSansBold i.Parent=d local j=Instance.new("TextButton")j.Size=UDim2.new(1,-20,0,24)j.Position=UDim2.new(0,10,0,116)j.BackgroundColor3=Color3.fromRGB(60,60,60)j.Text="Задать координаты Skip"j.TextColor3=Color3.fromRGB(255,255,255)j.TextSize=13 j.Font=Enum.Font.SourceSansBold j.Parent=d local k=Instance.new("TextButton")k.Size=UDim2.new(1,-20,0,24)k.Position=UDim2.new(0,10,0,148)k.BackgroundColor3=Color3.fromRGB(60,60,60)k.Text="Сменить тему"k.TextColor3=Color3.fromRGB(255,255,255)k.TextSize=13 k.Font=Enum.Font.SourceSansBold k.Parent=d local l={} l.Dark={Main=Color3.fromRGB(30,30,30),Top=Color3.fromRGB(20,20,20),Button=Color3.fromRGB(60,60,60)} l.Midnight={Main=Color3.fromRGB(15,20,35),Top=Color3.fromRGB(10,15,30),Button=Color3.fromRGB(30,40,70)} l.Blood={Main=Color3.fromRGB(35,10,10),Top=Color3.fromRGB(25,5,5),Button=Color3.fromRGB(70,20,20)} l.Ocean={Main=Color3.fromRGB(10,25,40),Top=Color3.fromRGB(5,20,35),Button=Color3.fromRGB(20,60,90)} l.Purple={Main=Color3.fromRGB(30,15,45),Top=Color3.fromRGB(25,10,40),Button=Color3.fromRGB(60,30,90)} l.Neon={Main=Color3.fromRGB(10,10,10),Top=Color3.fromRGB(15,15,15),Button=Color3.fromRGB(0,200,150)} local function m(n)if not l[n]then n="Dark"end _[8].Theme=n d.BackgroundColor3=l[n].Main e.BackgroundColor3=l[n].Top i.BackgroundColor3=l[n].Button j.BackgroundColor3=l[n].Button k.BackgroundColor3=l[n].Button end local function o()local p=Instance.new("ScreenGui")p.Name="ThemeMenu"p.ResetOnSpawn=false p.Parent=_[6]:WaitForChild("PlayerGui")local q=Instance.new("Frame")q.Size=UDim2.new(0,280,0,340)q.Position=UDim2.new(0.5,-140,0.25,0)q.BackgroundColor3=Color3.fromRGB(25,25,25)q.Active=true q.Draggable=true q.Parent=p local r=Instance.new("TextLabel")r.Size=UDim2.new(1,0,0,30)r.BackgroundColor3=Color3.fromRGB(20,20,20)r.Text="Выберите тема"r.TextColor3=Color3.fromRGB(255,255,255)r.TextSize=16 r.Font=Enum.Font.SourceSansBold r.Parent=q local s=Instance.new("TextButton")s.Size=UDim2.new(0,30,0,30)s.Position=UDim2.new(1,-30,0,0)s.BackgroundColor3=Color3.fromRGB(170,0,0)s.Text="X"s.TextColor3=Color3.fromRGB(255,255,255)s.TextSize=14 s.Font=Enum.Font.SourceSansBold s.Parent=q s.MouseButton1Click:Connect(function()p:Destroy()end)local t=40 for u,v in pairs(l)do local w=Instance.new("TextButton")w.Size=UDim2.new(1,-20,0,34)w.Position=UDim2.new(0,10,0,t)w.BackgroundColor3=v.Button w.Text=u w.TextColor3=Color3.fromRGB(255,255,255)w.TextSize=15 w.Font=Enum.Font.SourceSansBold w.Parent=q w.MouseButton1Click:Connect(function()m(u)_9[4]()p:Destroy()end)t=t+38 end end k.MouseButton1Click:Connect(OpenThemeMenu)local function x(y)statusLabel.Text="Кликни на кнопку "..y.."..."local z z=_[5].InputBegan:Connect(function(A)if A.UserInputType==Enum.UserInputType.MouseButton1 or A.UserInputType==Enum.UserInputType.Touch then if y=="Start"then _[8].StartPos={X=A.Position.X,Y=A.Position.Y}else _[8].SkipPos={X=A.Position.X,Y=A.Position.Y}end _9[4]()statusLabel.Text=y.." координаты сохранены!"z:Disconnect()end end)end i.MouseButton1Click:Connect(function()x("Start")end)j.MouseButton1Click:Connect(function()x("Skip")end)h.MouseButton1Click:Connect(function()_[8].Enabled=not _[8].Enabled h.Text=_[8].Enabled and"ВКЛЮЧЕНО"or"ВЫКЛЮЧЕНО"h.BackgroundColor3=_[8].Enabled and Color3.fromRGB(0,170,0)or Color3.fromRGB(170,0,0)end)local function B(C)statusLabel.Text="Статус: "..C end local function D()local E=_[3]:FindFirstChild("Lifts")return E and E:FindFirstChild("ToiletHQ")~=nil end local function F(G)if not G then return end _[4]:SendMouseButtonEvent(G.X,G.Y,0,true,game,1)task.wait(0.03)_[4]:SendMouseButtonEvent(G.X,G.Y,0,false,game,1)end task.spawn(function()m(_[8].Theme)while true do if _[8].Enabled then if D()then B("Лобби - телепорт + Start")local H=_[3]:FindFirstChild("Lifts")if H then local I={}for _,J in ipairs(H:GetChildren())do if J.Name=="ToiletHQ"then table.insert(I,J)end end if#I>0 then local K=1 _[6].Character.HumanoidRootPart.CFrame=I[K]:GetPivot()+Vector3.new(0,9,0)task.wait(3)F(_[8].StartPos)local L=tick()while D()and(tick()-L)<60 do task.wait(1)end if D()and#I>1 then K=K%#I+1 B("Пробуем другой ToiletHQ...")_[6].Character.HumanoidRootPart.CFrame=I[K]:GetPivot()+Vector3.new(0,9,0)task.wait(3)F(_[8].StartPos)end end end task.wait(8)else B("В катке - жмём Skip")F(_[8].SkipPos)task.wait(1)end else B("Выключено")task.wait(3)end end end)print("[AutoFarm] Скрипт запущен (by: Dristimich)")
+getgenv().AutoFarm = getgenv().AutoFarm or {}
+getgenv().AutoFarm.Enabled = true
+getgenv().AutoFarm.StartPos = getgenv().AutoFarm.StartPos or nil
+getgenv().AutoFarm.SkipPos = getgenv().AutoFarm.SkipPos or nil
+getgenv().AutoFarm.Theme = getgenv().AutoFarm.Theme or "Dark"
+
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local fileName = "AutoFarm_Positions.txt"
+
+-- ==================== THEMES ====================
+local Themes = {
+    Dark = {Main = Color3.fromRGB(30,30,30), Top = Color3.fromRGB(20,20,20), Button = Color3.fromRGB(60,60,60)},
+    Midnight = {Main = Color3.fromRGB(15,20,35), Top = Color3.fromRGB(10,15,30), Button = Color3.fromRGB(30,40,70)},
+    Blood = {Main = Color3.fromRGB(35,10,10), Top = Color3.fromRGB(25,5,5), Button = Color3.fromRGB(70,20,20)},
+    Ocean = {Main = Color3.fromRGB(10,25,40), Top = Color3.fromRGB(5,20,35), Button = Color3.fromRGB(20,60,90)},
+    Purple = {Main = Color3.fromRGB(30,15,45), Top = Color3.fromRGB(25,10,40), Button = Color3.fromRGB(60,30,90)},
+    Neon = {Main = Color3.fromRGB(10,10,10), Top = Color3.fromRGB(15,15,15), Button = Color3.fromRGB(0,200,150)}
+}
+
+local function ApplyTheme(theme)
+    if not Themes[theme] then theme = "Dark" end
+    getgenv().AutoFarm.Theme = theme
+    
+    if frame then
+        frame.BackgroundColor3 = Themes[theme].Main
+        titleBar.BackgroundColor3 = Themes[theme].Top
+        startBtn.BackgroundColor3 = Themes[theme].Button
+        skipBtn.BackgroundColor3 = Themes[theme].Button
+        themeBtn.BackgroundColor3 = Themes[theme].Button
+    end
+end
+
+-- ==================== SAVE/LOAD ====================
+local function loadPositions()
+    if isfile and readfile and isfile(fileName) then
+        local success, data = pcall(function()
+            return game:GetService("HttpService"):JSONDecode(readfile(fileName))
+        end)
+        if success and data then
+            getgenv().AutoFarm.StartPos = data.StartPos
+            getgenv().AutoFarm.SkipPos = data.SkipPos
+            getgenv().AutoFarm.Theme = data.Theme or "Dark"
+        end
+    end
+end
+
+local function savePositions()
+    local data = {
+        StartPos = getgenv().AutoFarm.StartPos,
+        SkipPos = getgenv().AutoFarm.SkipPos,
+        Theme = getgenv().AutoFarm.Theme
+    }
+    if writefile then
+        writefile(fileName, game:GetService("HttpService"):JSONEncode(data))
+    end
+end
+
+loadPositions()
+
+-- GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "AutoFarmGUI"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 260, 0, 195)
+frame.Position = UDim2.new(0.5, -130, 0.08, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+local titleBar = Instance.new("TextLabel")
+titleBar.Size = UDim2.new(1, 0, 0, 28)
+titleBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+titleBar.Text = "AutoFarm | Nightmare"
+titleBar.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleBar.TextSize = 15
+titleBar.Font = Enum.Font.SourceSansBold
+titleBar.Parent = frame
+
+local credit = Instance.new("TextLabel")
+credit.Size = UDim2.new(1, 0, 0, 18)
+credit.Position = UDim2.new(0, 0, 1, -18)
+credit.BackgroundTransparency = 1
+credit.Text = "by: Dristimich"
+credit.TextColor3 = Color3.fromRGB(180, 180, 180)
+credit.TextSize = 12
+credit.Font = Enum.Font.SourceSans
+credit.Parent = frame
+
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(1, -20, 0, 22)
+statusLabel.Position = UDim2.new(0, 10, 0, 35)
+statusLabel.BackgroundTransparency = 1
+statusLabel.Text = "Статус: Ожидание..."
+statusLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+statusLabel.TextSize = 13
+statusLabel.Font = Enum.Font.SourceSans
+statusLabel.Parent = frame
+
+local toggle = Instance.new("TextButton")
+toggle.Size = UDim2.new(1, -20, 0, 24)
+toggle.Position = UDim2.new(0, 10, 0, 60)
+toggle.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+toggle.Text = "ВКЛЮЧЕНО"
+toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggle.TextSize = 14
+toggle.Font = Enum.Font.SourceSansBold
+toggle.Parent = frame
+
+local startBtn = Instance.new("TextButton")
+startBtn.Size = UDim2.new(1, -20, 0, 24)
+startBtn.Position = UDim2.new(0, 10, 0, 88)
+startBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+startBtn.Text = "Задать координаты Start"
+startBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+startBtn.TextSize = 13
+startBtn.Font = Enum.Font.SourceSansBold
+startBtn.Parent = frame
+
+local skipBtn = Instance.new("TextButton")
+skipBtn.Size = UDim2.new(1, -20, 0, 24)
+skipBtn.Position = UDim2.new(0, 10, 0, 116)
+skipBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+skipBtn.Text = "Задать координаты Skip"
+skipBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+skipBtn.TextSize = 13
+skipBtn.Font = Enum.Font.SourceSansBold
+skipBtn.Parent = frame
+
+local themeBtn = Instance.new("TextButton")
+themeBtn.Size = UDim2.new(1, -20, 0, 24)
+themeBtn.Position = UDim2.new(0, 10, 0, 148)
+themeBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+themeBtn.Text = "Сменить тему"
+themeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+themeBtn.TextSize = 13
+themeBtn.Font = Enum.Font.SourceSansBold
+themeBtn.Parent = frame
+
+-- ==================== THEME SYSTEM ====================
+local function ApplyTheme(theme)
+    if not Themes[theme] then theme = "Dark" end
+    getgenv().AutoFarm.Theme = theme
+    
+    frame.BackgroundColor3 = Themes[theme].Main
+    titleBar.BackgroundColor3 = Themes[theme].Top
+    startBtn.BackgroundColor3 = Themes[theme].Button
+    skipBtn.BackgroundColor3 = Themes[theme].Button
+    themeBtn.BackgroundColor3 = Themes[theme].Button
+end
+
+local function OpenThemeMenu()
+    local themeGui = Instance.new("ScreenGui")
+    themeGui.Name = "ThemeMenu"
+    themeGui.ResetOnSpawn = false
+    themeGui.Parent = player:WaitForChild("PlayerGui")
+
+    local themeFrame = Instance.new("Frame")
+    themeFrame.Size = UDim2.new(0, 280, 0, 340)
+    themeFrame.Position = UDim2.new(0.5, -140, 0.25, 0)
+    themeFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    themeFrame.Active = true
+    themeFrame.Draggable = true
+    themeFrame.Parent = themeGui
+
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 30)
+    title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    title.Text = "Выберите тему"
+    title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    title.TextSize = 16
+    title.Font = Enum.Font.SourceSansBold
+    title.Parent = themeFrame
+
+    local closeBtn = Instance.new("TextButton")
+    closeBtn.Size = UDim2.new(0, 30, 0, 30)
+    closeBtn.Position = UDim2.new(1, -30, 0, 0)
+    closeBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+    closeBtn.Text = "X"
+    closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeBtn.TextSize = 14
+    closeBtn.Font = Enum.Font.SourceSansBold
+    closeBtn.Parent = themeFrame
+
+    closeBtn.MouseButton1Click:Connect(function()
+        themeGui:Destroy()
+    end)
+
+    local yPos = 40
+    for themeName, colors in pairs(Themes) do
+        local btn = Instance.new("TextButton")
+        btn.Size = UDim2.new(1, -20, 0, 34)
+        btn.Position = UDim2.new(0, 10, 0, yPos)
+        btn.BackgroundColor3 = colors.Button
+        btn.Text = themeName
+        btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        btn.TextSize = 15
+        btn.Font = Enum.Font.SourceSansBold
+        btn.Parent = themeFrame
+
+        btn.MouseButton1Click:Connect(function()
+            ApplyTheme(themeName)
+            savePositions()
+            themeGui:Destroy()
+        end)
+
+        yPos = yPos + 38
+    end
+end
+
+themeBtn.MouseButton1Click:Connect(OpenThemeMenu)
+
+-- ==================== ORIGINAL FUNCTIONS ====================
+local function calibrate(name)
+    statusLabel.Text = "Кликни на кнопку " .. name .. "..."
+    local connection
+    connection = UserInputService.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            if name == "Start" then
+                getgenv().AutoFarm.StartPos = {X = input.Position.X, Y = input.Position.Y}
+            else
+                getgenv().AutoFarm.SkipPos = {X = input.Position.X, Y = input.Position.Y}
+            end
+            savePositions()
+            statusLabel.Text = name .. " координаты сохранены!"
+            connection:Disconnect()
+        end
+    end)
+end
+
+startBtn.MouseButton1Click:Connect(function()
+    calibrate("Start")
+end)
+
+skipBtn.MouseButton1Click:Connect(function()
+    calibrate("Skip")
+end)
+
+toggle.MouseButton1Click:Connect(function()
+    getgenv().AutoFarm.Enabled = not getgenv().AutoFarm.Enabled
+    toggle.Text = getgenv().AutoFarm.Enabled and "ВКЛЮЧЕНО" or "ВЫКЛЮЧЕНО"
+    toggle.BackgroundColor3 = getgenv().AutoFarm.Enabled and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(170, 0, 0)
+end)
+
+local function updateStatus(text)
+    statusLabel.Text = "Статус: " .. text
+end
+
+local function isInLobby()
+    local lifts = Workspace:FindFirstChild("Lifts")
+    return lifts and lifts:FindFirstChild("ToiletHQ") ~= nil
+end
+
+local function click(pos)
+    if pos then
+        VirtualInputManager:SendMouseButtonEvent(pos.X, pos.Y, 0, true, game, 1)
+        task.wait(0.03)
+        VirtualInputManager:SendMouseButtonEvent(pos.X, pos.Y, 0, false, game, 1)
+    end
+end
+
+-- ==================== MAIN LOOP ====================
+task.spawn(function()
+    ApplyTheme(getgenv().AutoFarm.Theme)
+    
+    while true do
+        if getgenv().AutoFarm.Enabled then
+            if isInLobby() then
+                updateStatus("Лобби - телепорт + Start")
+                
+                local lifts = Workspace:FindFirstChild("Lifts")
+                if lifts then
+                    local allHQ = {}
+                    for _, obj in ipairs(lifts:GetChildren()) do
+                        if obj.Name == "ToiletHQ" then
+                            table.insert(allHQ, obj)
+                        end
+                    end
+                    
+                    if #allHQ > 0 then
+                        local index = 1
+                        
+                        -- Телепорт в первый ToiletHQ
+                        player.Character.HumanoidRootPart.CFrame = allHQ[index]:GetPivot() + Vector3.new(0, 9, 0)
+                        task.wait(3)
+                        click(getgenv().AutoFarm.StartPos)
+                        
+                        local startTime = tick()
+                        
+                        -- Ждём 60 секунд
+                        while isInLobby() and (tick() - startTime) < 60 do
+                            task.wait(1)
+                        end
+                        
+                        -- Если за 60 секунд не ушли — переключаемся на следующий ToiletHQ
+                        if isInLobby() and #allHQ > 1 then
+                            index = index % #allHQ + 1
+                            updateStatus("Пробуем другой ToiletHQ...")
+                            
+                            player.Character.HumanoidRootPart.CFrame = allHQ[index]:GetPivot() + Vector3.new(0, 9, 0)
+                            task.wait(3)
+                            click(getgenv().AutoFarm.StartPos)
+                        end
+                    end
+                end
+                
+                task.wait(8)
+            else
+                updateStatus("В катке - жмём Skip")
+                click(getgenv().AutoFarm.SkipPos)
+                task.wait(1)
+            end
+        else
+            updateStatus("Выключено")
+            task.wait(3)
+        end
+    end
+end)
+
+print("[AutoFarm] Скрипт запущен (by: Dristimich)")
